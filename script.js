@@ -1,32 +1,34 @@
-//your JS code here. If required.
-document.body.onload = createBoxes();
+const colors = ['#e74c3c', '#8e44ad', '#3498db', '#e67e22', '#2ecc71']
+// const colors = ['#ff7f50','#87cefa','#da70d6','#32cd32','#6495ed','#ff69b4','#ba55d3','#cd5c5c','#ffa500','#40e0d0']
 
-function createBoxes() {
-  const container = document.getElementById("container");
-  for (let i = 1; i <= 800; i++) {
-    const box = document.createElement("div");
-    const id = `box${i}`;
-    box.className = "square";
-    box.id = id;
-    box.onmouseover = () => handleHoverEnter(id);
-    box.onmouseout = () => handleHoverLeave(id);
-    container.appendChild(box);
-  }
+
+const container  = document.getElementById("container")
+
+const SQUARES = 800
+
+for(let i=0;i<SQUARES;i++){
+    const square = document.createElement("div")
+    square.classList.add("square")
+
+    square.addEventListener("mouseover",()=> setColor(square))
+    square.addEventListener("mouseout",()=> removeColor(square))
+
+    container.appendChild(square)
 }
 
-function handleHoverEnter(id) {
-  const box = document.getElementById(id);
-  clearTimeout(box.dataset.timer);
-  delete box.dataset.timer;
-  const r = Math.floor(Math.random() * 255);
-  const g = Math.floor(Math.random() * 255);
-  const b = Math.floor(Math.random() * 255);
-  box.style.background = `rgb(${r}, ${g}, ${b})`;
+function setColor(element){
+    const color = randomColor()
+
+    element.style.background = color
+    element.style.boxShadow = `0 0 2px ${color}, 0 0 10px ${color}`
+
 }
-function handleHoverLeave(id) {
-  const box = document.getElementById(id);
-  box.dataset.timer = setTimeout(() => {
-    box.style.backgroundColor = "rgb(29, 29, 29)";
-    delete box.dataset.timer;
-  }, 1000);
+
+function removeColor(element){
+    element.style.background = "#1d1d1d"
+    element.style.boxShadow = "0 0 2px #000"
+}
+function randomColor(){
+    const index = Math.floor(Math.random()*colors.length)
+    return colors[index]
 }
